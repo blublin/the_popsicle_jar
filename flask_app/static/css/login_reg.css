@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: repeating-linear-gradient(
+        to right,
+        paleturquoise 0%,
+        pink 25%,
+        rgb(88, 220, 88) 75%,
+        rgb(255, 252, 93) 100%
+    );
+}
+
+.title-blur {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    line-height: 1;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 20px 20px;
+}
+
+.form-bg {
+    background: repeating-linear-gradient(
+        to right,
+        rgb(26, 69, 69) 0%,
+        rgb(99, 40, 50) 25%,
+        rgb(15, 63, 15) 75%,
+        rgb(60, 59, 9) 100%
+    );
+}
+
+form > h1 {
+    /* -webkit-text-stroke: 1px rgb(255, 255, 255); */
+}
