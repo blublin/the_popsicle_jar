@@ -5,6 +5,7 @@
 }
 
 body {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient */
     background: repeating-linear-gradient(
         to right,
         paleturquoise 0%,
@@ -15,15 +16,30 @@ body {
 }
 
 .title-blur {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#blur() */
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 5px;
     line-height: 1;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    padding: 20px 20px;
+    padding: 10px 0;
+}
+
+form {
+    border-radius: 4px;
+    box-shadow: 4px 4px 2px 1px rgba(0, 0, 0, 0.2);
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow */
+}
+input {
+    text-align: center;
+    background-color: fade(white, 20%);
+}
+input:hover {
+
 }
 
 .form-bg {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient */
     background: repeating-linear-gradient(
         to right,
         rgb(26, 69, 69) 0%,
@@ -35,4 +51,26 @@ body {
 
 form > h1 {
     /* -webkit-text-stroke: 1px rgb(255, 255, 255); */
+}
+
+.input-focus {
+    width: 75%;
+    opacity: .4;
+    transition-duration: 0.5s;
+    color:rgb(0, 0, 0); 
+    transition-property: width, background-color, opacity, font;
+}
+
+.input-focus:hover {
+    background-color: white;
+    color: black;
+    opacity: 0.6;
+}
+
+.input-focus:focus {
+    width: 90%;
+    background-color: white;
+    color: black;
+    opacity: 0.9;
+
 }
