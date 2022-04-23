@@ -29,48 +29,41 @@ form {
     border-radius: 4px;
     box-shadow: 4px 4px 2px 1px rgba(0, 0, 0, 0.2);
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow */
-}
-input {
     text-align: center;
-    background-color: fade(white, 20%);
-}
-input:hover {
-
 }
 
 .form-bg {
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient */
     background: repeating-linear-gradient(
         to right,
-        rgb(26, 69, 69) 0%,
-        rgb(99, 40, 50) 25%,
-        rgb(15, 63, 15) 75%,
-        rgb(60, 59, 9) 100%
+        rgba(26, 69, 69, 0.75) 0%,
+        rgba(99, 40, 50, 0.75) 25%,
+        rgba(15, 63, 15, 0.75) 75%,
+        rgba(60, 59, 9, 0.75) 100%
     );
 }
 
-form > h1 {
-    /* -webkit-text-stroke: 1px rgb(255, 255, 255); */
-}
+/* form > h1 {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+} */
 
 .input-focus {
+    text-align: center;
+    border: none;
     width: 75%;
-    opacity: .4;
+    background: rgba(0, 0, 0, 0.3);
+    color:rgb(236, 244, 252);
     transition-duration: 0.5s;
-    color:rgb(0, 0, 0); 
-    transition-property: width, background-color, opacity, font;
+    transition-property: width, background, color;
 }
 
 .input-focus:hover {
-    background-color: white;
-    color: black;
-    opacity: 0.6;
+    background: rgba(255, 255, 255, 0.6);
+    color:rgb(0, 0, 0);
 }
 
 .input-focus:focus {
     width: 90%;
-    background-color: white;
-    color: black;
-    opacity: 0.9;
-
+    background: rgba(255, 255, 255, 0.9);
+    color:rgb(0, 0, 0);
 }
