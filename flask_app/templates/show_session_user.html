@@ -20,6 +20,7 @@
             <h1 class="display-1">The Popsicle Jar</h1>
             <a href="/logout" class="btn btn-outline-danger btn-sm">Logout</a>
         </div>
+        <hr>
         <!-- End Nav Bar -->
 
         <!-- Main Body -->
@@ -30,7 +31,7 @@
                 <div class="row">
                                                                     <!-- Jinja url_for + stored avatar number -->
                     <img src="{{ url_for('static', filename='imgs/avatars/avatar_{{ user.avatar_num }}.png') }}" alt="user avatar" class="img-fluid pl-3 pt-3">
-                    <h3 class="pl-3 pt-3 text-center">What's <em>hap'nin</em>, {{ session['user_name'] }}?</h1>
+                    <h3 class="pl-3 pt-3 text-center">What's <em>hap'nin</em>, {{ session['user_name'] }}?</h3>
                 </div>
             </div>
             <!-- End Top Row -->
@@ -46,7 +47,7 @@
                             <tbody>
                                 {% for event in events %}
                                 <tr>
-                                    <th><a href="/events/{{ event.id }}">{{ event.title }}</a></th>
+                                    <th><a href="/events/{{ event.id }}">{{ event.name }}</a></th>
                                 </tr>
                                 <tr>
                                     <td>When: {{ event.when }}</td>
