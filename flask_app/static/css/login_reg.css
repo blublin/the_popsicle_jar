@@ -32,6 +32,10 @@ form {
     text-align: center;
 }
 
+input[type=radio] {
+    display: none;
+}
+
 .form-bg {
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient */
     background: repeating-linear-gradient(
