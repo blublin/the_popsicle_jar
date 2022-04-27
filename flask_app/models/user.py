@@ -1,9 +1,10 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 # from flask_app.models import recipe
 from flask import flash
+from datetime import datetime
 import re
 
-DATABASE = 'recipes_schema'
+DATABASE = 'popsicle_jar'
 PRIMARY_TABLE = 'users'
 # SECONDARY_TABLE = ''
 
@@ -15,9 +16,42 @@ class User:
         self.first_name = data['first_name']
         self.last_name = data['last_name']
         self.email = data['email']
+        self.age  = User.getAge(data['birthday'])
+        self.city = data['city'] # not city_id, query for full name
+        if 'sig_other_id' in data:
+            self.sig_other = User.getSigOther(data['sig_other_id'])
+            self.sig_other_id = data['sig_other_id']
+        self.birthday = data['birthday']
         self.password = data['password']
+        self.avatar_num = data['avatar_num']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+
+    @staticmethod
+    def getAge(birthdate) -> int:
+        # https://www.codingem.com/how-to-calculate-age-in-python/
+        # Get today's date object
+        today = datetime.today()
+        
+        # A bool that represents if today's day/month precedes the birth day/month
+        isThisYear = ((today.month, today.day) < (birthdate.month, birthdate.day))
+        year_difference = today.year - birthdate.year
+        
+        # The difference in years is not enough. 
+        # To get it right, subtract 1 or 0 based on if today precedes the 
+        # birthdate's month/day.
+        
+        # To do this, subtract the 'isThisYear' boolean 
+        # from 'year_difference'. (This converts
+        # True to 1 and False to 0 under the hood.)
+        age = year_difference - isThisYear
+        return age
+
+    @staticmethod
+    def getSigOther(id) -> str:
+        query = f"SELECT CONCAT_WS(' ', first_name, last_name) FROM {PRIMARY_TABLE} WHERE id = %(id)s;"
+        result = connectToMySQL(DATABASE).query_db(query, data)
+        return cls(result[0]) if result else False
 
     @classmethod
     def get_all(cls) -> list:
