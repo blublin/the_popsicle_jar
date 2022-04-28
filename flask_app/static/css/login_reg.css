@@ -33,7 +33,7 @@ form {
 }
 
 input[type=radio] {
-    display: none;
+    /* display: none; */
 }
 
 .form-bg {
