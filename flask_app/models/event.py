@@ -1,5 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
-# from flask_app.models import recipe
+from flask_app.models import city
 from flask import flash
 from datetime import datetime
 import re
@@ -15,15 +15,19 @@ class Event:
         ## INSTANCE ATTRIBUTES SHOULD BE SAME AS TABLE COLUMNS
         self.id = data['id']
         self.name = data['name']
-        self.when = Event.convertWhen(data['when']) # WRITE THIS METHOD
-        self.location = Event.getLocation(data['city_id']) # WRITE THIS METHOD
+        self.when = Event.convertWhen(data['when'])
+        if 'city' in data:
+            location = User.getCity(data['city']) # not city_id, query for full name
+            self.city = location.city
+            self.state = location.state
+        # self.location = Event.getLocation(data['city_id'])
         self.twentyOnePlus = data['twentyOnePlus']
         self.description = data['description']
-        self.activity_type = Event.getType(data['activity_id']) # WRITE THIS METHOD
+        self.activity_type = Event.getType(data['activity_id'])
         self.creator_id = data['creator_id'] # ROUTE NEEDS TO CONVERT TO NAME
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.many = [] # if many to one, store many here ## Ex: Dojo and Ninjas
+        self.many = []
 
     @classmethod
     def get_one(cls, data:dict) -> object or bool:
@@ -41,3 +45,9 @@ class Event:
     @staticmethod
     def convertWhen(time) -> str:
         return time.strftime("%d %B, %Y")
+
+    @staticmethod
+    def getLocation(city_id: int) -> object:
+        data = {"id" : city_id}
+        return city.City.getOne(data)
+        

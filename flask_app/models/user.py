@@ -3,6 +3,7 @@ from flask_app.models import sig_other
 from flask_app.models import city
 from flask_app.models import event
 from flask_app.models import friend
+from flask_app.models import user_group
 from flask_app.models import group
 from flask import flash
 from datetime import datetime
@@ -110,7 +111,7 @@ class User:
                 "id" : data['groups.id'],
                 "name" : data['name']
             }
-            user.groups.append( group.Group( data ) )
+            user.groups.append( user_group.User_Group( data ) )
         return user
 
     # ! Many To One, skip otherwise
@@ -168,7 +169,7 @@ class User:
     @staticmethod
     def getCity(zipcode: int) -> object:
         data = { 'zipcode' : zipcode }
-        return city.City(data)
+        return city.City.get_one_by_zip(data)
 
 
     @classmethod
