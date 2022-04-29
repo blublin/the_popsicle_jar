@@ -1,15 +1,15 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models import sig_other
 from flask_app.models import city
+from flask_app.models import event
+from flask_app.models import friend
+from flask_app.models import group
 from flask import flash
 from datetime import datetime
 import re
 
 DATABASE = 'popsicle_jar'
 TABLE1 = 'users'
-TABLE2 = 'friends'
-TABLE3 = 'groups'
-TABLE4 = 'events'
 
 debug = True
 
@@ -37,6 +37,9 @@ class User:
             self.sig_other_request_id = data['sig_other_request_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.friends = []
+        self.groups = []
+        self.events = []
 
     @classmethod
     def get_all(cls) -> list:
@@ -61,71 +64,65 @@ class User:
     # ! Many To One, skip otherwise
     @classmethod
     def get_user_with_friends( cls , data:dict ) -> object:
-        query = f"""SELECT 
-                    FROM {TABLE1}
-                    LEFT JOIN {TABLE2}
-                    ON {TABLE2}.{TABLE1[:-1]}_id = {TABLE1}.id
-                    WHERE {TABLE1}.id = %(id)s;"""
+        query = f"""SELECT u1.*, f1.id, CONCAT_WS(' ', f1.first_name, f1.last_name) as friend
+                    FROM friends
+                    JOIN users as u1
+                    ON friends.user_id = u1.id
+                    JOIN users as f1
+                    ON friends.friend_id = f1.id
+                    WHERE friends.user_id = %(id)s;"""
         results = connectToMySQL(DATABASE).query_db( query , data )
         user = cls( results[0] )
         if debug:
             print(results[0])
             print(f"Results: {results}")
+        if not results[0]['f1.id']:
+        # if no friends are found
+            return user
         for data in results:
-            recipe_data= {
-                "id" : data['recipes.id'],
-                "name" : data['name'],
-                "description" : data['description'],
-                "instructions" : data['instructions'],
-                "under_30" : data['under_30'],
-                "origin_date" : data['origin_date'],
-                "user_id" : data['user_id'],
-                "created_at" : data['created_at'],
-                "updated_at" : data['updated_at'],
+            friend_data= {
+                "id" : data['f1.id'],
+                "name" : data['friend']
             }
-            ### CHANGE THIS TO INCLUDE CORRECT SECONDARY MODEL 
-            user.recipes.append( recipe.Recipe( recipe_data ) )
-            ### CHANGE THIS TO INCLUDE CORRECT SECONDARY MODEL 
+            user.friends.append( friend.Friend( data ) )
         return user
+        
 
     # ! Many To One, skip otherwise
     @classmethod
     def get_user_with_groups( cls , data:dict ) -> object:
-        query = f"""SELECT 
-                FROM {TABLE1}
-                LEFT JOIN {TABLE2}
-                ON {TABLE2}.{TABLE1[:-1]}_id = {TABLE1}.id
-                WHERE {TABLE1}.id = %(id)s;"""
+        query = """SELECT users.*, popsicle_jar.groups.name, popsicle_jar.groups.id
+                    FROM users
+                    JOIN group_members
+                    ON group_members.user_id = users.id
+                    JOIN popsicle_jar.groups
+                    ON group_members.group_id = popsicle_jar.groups.id
+                    WHERE users.id = %(id)s;"""
         results = connectToMySQL(DATABASE).query_db( query , data )
         user = cls( results[0] )
         if debug:
             print(results[0])
             print(f"Results: {results}")
+        if not results[0]['name']:
+            return user
         for data in results:
-            recipe_data= {
-                "id" : data['recipes.id'],
-                "name" : data['name'],
-                "description" : data['description'],
-                "instructions" : data['instructions'],
-                "under_30" : data['under_30'],
-                "origin_date" : data['origin_date'],
-                "user_id" : data['user_id'],
-                "created_at" : data['created_at'],
-                "updated_at" : data['updated_at'],
+            friend_data= {
+                "id" : data['groups.id'],
+                "name" : data['name']
             }
-            ### CHANGE THIS TO INCLUDE CORRECT SECONDARY MODEL 
-            user.recipes.append( recipe.Recipe( recipe_data ) )
-            ### CHANGE THIS TO INCLUDE CORRECT SECONDARY MODEL 
+            user.groups.append( group.Group( data ) )
         return user
 
     # ! Many To One, skip otherwise
     @classmethod
     def get_user_with_events( cls , data:dict ) -> object:
-        query = f"""SELECT 
-                    FROM {TABLE1}
-                    LEFT JOIN {TABLE2}
-                    ON {TABLE2}.{TABLE1[:-1]}_id = {TABLE1}.id
-                    WHERE {TABLE1}.id = %(id)s;"""
+        query = """SELECT users.*, name, events.when, description, count(user_id) AS attending
+                    FROM events_has_users
+                    JOIN users
+                    ON events_has_users.user_id = users.id
+                    JOIN events
+                    ON events_has_users.user_id = events.id
+                    WHERE events_has_users.event_id = %(event_id)s;"""
         results = connectToMySQL(DATABASE).query_db( query , data )
         user = cls( results[0] )
         if debug:
