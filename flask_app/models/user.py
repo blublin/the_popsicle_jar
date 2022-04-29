@@ -21,7 +21,7 @@ class User:
         self.last_name = data['last_name']
         self.email = data['email']
         self.age  = User.getAge(data['birthday'])
-        if 'city' in data:
+        if 'city_id' in data:
             location = User.getCity(data['city']) # not city_id, query for full name
             self.city = location.city
             self.state = location.state
@@ -303,3 +303,10 @@ class User:
     def update(data):
         query = f"UPDATE {TABLE1} SET name = %(name)s WHERE id = %(id)s;"
         return connectToMySQL(DATABASE).query_db( query, data )
+    
+    @staticmethod
+    def add_sig_other(data: dict) -> None:
+        query = f"""UPDATE {TABLE1}
+                SET sig_other_id = %(sig_other_id)s, sig_other_request_id = NULL
+                WHERE id = %(id)s;"""
+        connectToMySQL(DATABASE).query_db( query, data )

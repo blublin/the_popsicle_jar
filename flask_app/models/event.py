@@ -12,15 +12,13 @@ debug = True
 
 class Event:
     def __init__(self, data:dict) -> None:
-        ## INSTANCE ATTRIBUTES SHOULD BE SAME AS TABLE COLUMNS
         self.id = data['id']
         self.name = data['name']
         self.when = Event.convertWhen(data['when'])
-        if 'city' in data:
-            location = User.getCity(data['city']) # not city_id, query for full name
+        if 'city_id' in data:
+            location = Event.getCity(data['city_id'])
             self.city = location.city
             self.state = location.state
-        # self.location = Event.getLocation(data['city_id'])
         self.twentyOnePlus = data['twentyOnePlus']
         self.description = data['description']
         self.activity_type = Event.getType(data['activity_id'])
@@ -47,7 +45,7 @@ class Event:
         return time.strftime("%d %B, %Y")
 
     @staticmethod
-    def getLocation(city_id: int) -> object:
+    def getCity(city_id: int) -> object:
         data = {"id" : city_id}
         return city.City.getOne(data)
         
