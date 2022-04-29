@@ -25,73 +25,19 @@ body {
     padding: 10px 0;
 }
 
-#form-container {
-    position: relative;
-    align-items: center;
-    width: auto;
-    height: auto;
-}
-
-.tabs {
-    position: relative;
-    display: flex;
-    background:rgba(236, 244, 252, 0.3);
-    border-top: 1px solid #fe0066;
-    border-bottom: 1px solid #fe0066;
-
-}
-
-.tabs > * {
-    padding: 5px 12px;
-    margin: 5px 0;
-    text-align: right;
-}
-
-
-.not-hidden {
-    background: #fe0066;
-}
-
-.login {
-    margin-right: 15px;
-}
-
-#outer {
-    width: 100%;
-    margin-top: 40px ;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-#page {
-    width: 200%;
-    position: relative;
-    display: flex;
-    margin: auto;
-    transition: ease, step-start, cubic-bezier(0.1, 0.7, 1.0, 0.1);
-}
-
 form {
     border-radius: 4px;
     box-shadow: 4px 4px 2px 1px rgba(0, 0, 0, 0.2);
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow */
     text-align: center;
-    margin: auto;
-    width: 100%;
 }
 
-form > label {
-    display: block;
-    padding: 30px 15px 0;
-    text-align: center;
-    letter-spacing: 10px;
-    font-size: 20px;
+input[type=radio] {
+    /* display: none; */
 }
 
-.form-element {
-    position: relative;
-
+.tabs {
+    position: absolute;
 }
 
 .form-bg {
@@ -104,6 +50,10 @@ form > label {
         rgba(60, 59, 9, 0.75) 100%
     );
 }
+
+/* form > h1 {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+} */
 
 .input-focus {
     text-align: center;

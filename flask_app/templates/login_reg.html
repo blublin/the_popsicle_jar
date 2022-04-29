@@ -20,44 +20,87 @@
             <h1 class="text-center display-1">The Popsicle Jar</h1>
             <h3 class="text-center display-6">What fun will you pick?</h3>
         </div>
-        <div class="row justify-content-md-center">
-            <!-- Right Column -->
-            <div id="right-col" class="col">
-                {% with messages = get_flashed_messages(category_filter=["login"]) %}    <!-- declare a variable called messages -->
-                    {% if messages %}                     <!-- check if there are any messages -->
-                        <div class="bg-danger border border-2 p-3 col-8 mx-auto my-5">
-                            {% for message in messages %}         <!-- loop through the messages -->
-                                <p>{{message}}</p>          <!-- display each message in a paragraph tag -->
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
-                <form action="/login" method="POST" class="p-3 col-3 mx-auto my-5 form-bg text-light text-center">
-                    <input type="radio" name="tab" id="signin" checked="checked"/>
-                    <input type="radio" name="tab" id="register"/>
-                    
-                    <h1 class="text-light mb-2">Login</h1>
-                    <div class="form-group mb-2">
-                        <input type="email" class="form-control m-auto input-focus" id="email_login" name="email" placeholder="email">
+        <div class="row d-flex justify-content-md-center">
+
+            <div id="form-container">
+
+                <!-- Right Column -->
+                <div id="outer">
+                    {% with messages = get_flashed_messages() %}    <!-- declare a variable called messages -->
+                        {% if messages %}                     <!-- check if there are any messages -->
+                            <div class="bg-danger border border-2 p-3 col-8 mx-auto my-5">
+                                {% for message in messages %}         <!-- loop through the messages -->
+                                    <p>{{message}}</p>          <!-- display each message in a paragraph tag -->
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                    <div id="page">
+
+                        <!-- LOGIN  FORM -->
+                        <form action="/login" method="POST" class="p-3 form-bg text-light text-center">
+                            <div class="tabs d-flex justify-content-evenly align-items-center">
+                                <button type="button" class="btn login text-light not-hidden">Login</button>
+                                <hr width="1" size="40px">
+                                <button type="button" class="btn signup text-light" onclick="tab2();">Signup</button>
+                            </div>
+                            <label class="text-light mb-2">Login</label>
+                            <div class="form-group form-element mb-2">
+                                <input type="email" class="form-control m-auto input-focus" id="email" name="email" placeholder="email">
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="password" class="form-control m-auto input-focus" id="password" name="password" placeholder="password">
+                            </div>
+                            <input type="submit" class="shadow btn border btn-default bg-success text-light" value="Submit">
+                        </form>
+
+                        <!-- REGISTER FORMM -->
+                        <form action="/register/create" method="POST" class="p-3 form-bg text-light text-center">
+                            <div class="tabs d-flex justify-content-evenly align-items-center">
+                                <button type="button" class="btn login text-light not-hidden" onclick="tab1();">Login</button>
+                                <hr width="1" size="40px">
+                                <button type="button" class="btn signup text-light">Signup</button>
+                            </div>
+                            <label class="text-light mb-2">Register</label>
+                            <div class="form-group form-element mb-2">
+                                <input type="text" class="form-control m-auto input-focus" id="first_name" name="first_name" placeholder="first name" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="text" class="form-control m-auto input-focus" id="last_name" name="last_name" placeholder="last name" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="email" class="form-control m-auto input-focus" id="email" name="email" placeholder="email" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="password" class="form-control m-auto input-focus" id="password" name="password" placeholder="password" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="password" class="form-control m-auto input-focus" id="password_confirm" name="password_confirm" placeholder="confirm password" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="date" class="form-control m-auto input-focus" id="birthday" name="birthday" placeholder="birthday" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="number" class="form-control m-auto input-focus" id="zipcode" name="zipcode" placeholder="zipcode" required>
+                            </div>
+                            <div class="form-group form-element mb-2">
+                                <input type="text" class="form-control m-auto input-focus" id="sig_other_email" name="sig_other_email" placeholder="significant others email">
+                            </div>
+                            <input type="submit" class="shadow btn border btn-default bg-primary text-light" value="Register">
+                            <input type="reset" class="shadow btn border btn-default bg-primary text-light">
+                        </form>
+
                     </div>
-                    <div class="form-group mb-2">
-                        <input type="password" class="form-control m-auto input-focus" id="password_login" name="password" placeholder="password">
-                    </div>
-                    <input type="submit" class="shadow btn border btn-default bg-success text-light" value="Submit">
-                    <div class="tabs">
-                        <label class="tab" for="signin">
-                            <div class="text">Sign In</div>
-                        </label>
-                        <label class="tab" for="register">
-                            <div class="text">Register</div>
-                        </label>
-                    </div>
-                </form>
+                </div>
+                
             </div>
 
         </div>
 
     </div>
+
+    <!-- SCRIPT -->
+    <script src="{{ url_for('static', filename='js/login_reg.js') }}"></script>
 </body>
 </html>
 

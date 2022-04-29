@@ -8,9 +8,9 @@ body {
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient */
     background: repeating-linear-gradient(
         45deg,
-        rgb(238, 175, 220) 0%,
+        rgb(175, 238, 199) 0%,
         /* pink 25%, */
-        rgb(243, 221, 76) 75%,
+        rgb(76, 243, 96) 75%,
         paleturquoise 100%
     );
     background-repeat: no-repeat;

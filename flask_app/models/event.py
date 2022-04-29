@@ -24,3 +24,20 @@ class Event:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.many = [] # if many to one, store many here ## Ex: Dojo and Ninjas
+
+    @classmethod
+    def get_one(cls, data:dict) -> object or bool:
+        query = f"SELECT * FROM {TABLE1} WHERE id = %(id)s;"
+        result = connectToMySQL(DATABASE).query_db(query, data)
+        return cls(result[0]) if result else False
+
+    @staticmethod
+    def getType(act_id: int) -> str:
+        query = "SELECT name FROM activities WHERE id = %(id)s;"
+        data = { 'id' : act_id}
+        activity = connectToMySQL(DATABASE).query_db(query, data)
+        return activity or "No activity found"
+    
+    @staticmethod
+    def convertWhen(time) -> str:
+        return time.strftime("%d %B, %Y")
